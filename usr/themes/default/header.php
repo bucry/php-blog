@@ -57,10 +57,6 @@
                     <?php while($pages->next()): ?>
                     <a<?php if($this->is('page', $pages->slug)): ?> class="current"<?php endif; ?> href="<?php $pages->permalink(); ?>" title="<?php $pages->title(); ?>"><?php $pages->title(); ?></a>
                     <?php endwhile; ?>
-
-                    <a href="http://soft.haojie.org/" title="下载" target="_blank">下载</a>
-
-                    
                 </nav>
             </div>
         </div><!-- end .row -->
