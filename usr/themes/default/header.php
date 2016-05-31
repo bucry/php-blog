@@ -60,7 +60,7 @@
 
                     <a href="http://soft.haojie.org/" title="下载" target="_blank">下载</a>
 
-                    <?php Typecho_Widget::widget('TEWeiYu_Action')->render(); ?>
+                    
                 </nav>
             </div>
         </div><!-- end .row -->

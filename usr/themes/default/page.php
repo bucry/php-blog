@@ -8,6 +8,7 @@
             <?php $this->content(); ?>
         </div>
     </article>
+    <?php Typecho_Widget::widget('TEWeiYu_Action')->render(); ?>
     <?php $this->need('comments.php'); ?>
 </div><!-- end #main-->
 
