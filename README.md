@@ -1,2 +1,2 @@
 # php-blog
-www.bucry.com
+you can see : www.bucry.com
