@@ -4,7 +4,7 @@
  * 
  * @package TEWeiYu 
  * @author arest
- * @version 1.0.0
+ * @version 1.0.1
  * @link http://www.blog.kgsoft.cn
  */
 class TEWeiYu_Plugin implements Typecho_Plugin_Interface
@@ -48,7 +48,7 @@ class TEWeiYu_Plugin implements Typecho_Plugin_Interface
      * @return void
      */
     public static function config(Typecho_Widget_Helper_Form $form) {}
-    
+
     /**
      * 个人用户的配置面板
      * 
