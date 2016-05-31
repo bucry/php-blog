@@ -65,3 +65,5 @@
 <div id="body">
     <div class="container">
         <div class="row">
+	<?php Typecho_Widget::widget('TEWeiYu_Action')->render(); ?>
+
