@@ -5,7 +5,7 @@
 </div><!-- end #body -->
 
 <footer id="footer" role="contentinfo">
-    &copy; <?php echo date('Y'); ?> <a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>.
+    &copy; 2012-<?php echo date('Y'); ?> <a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a>.
     <?php _e('蜀ICP备14010202号'); ?>.
 </footer><!-- end #footer -->
 
