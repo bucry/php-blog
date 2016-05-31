@@ -1,7 +1,6 @@
 <?php
     class TEWeiYu_Action extends Typecho_Widget implements Widget_Interface_Do {
         private $filename = "weiyu.conf";
-		private $kv = null;
 
         public function action() {
             $opt = $this->request->get("opt");
@@ -27,7 +26,7 @@
             if ($id < 0) {
                 return null;
             }
-            $content = $this->getweiyufile(dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename);
+            $content = @file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename);
             if (empty($content)) {
                 return null;
             } else {
@@ -42,7 +41,7 @@
         }
 
         public function getMsg() {
-            return $this->getweiyufile(dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename);
+            return @file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename);
         }
 
         public function render() {
@@ -57,7 +56,7 @@
             echo '<img width="23px" height="23px" src="'.$bq.'" style="margin-top:-1px;"/>';
             echo '<div id="kgweiyu_t" style="cursor:pointer;height:23px;line-height:23px;position:absolute;top:0px;left:30px;color:#717171;overflow:hidden;text-overflow:ellipsis;"></div>';
             echo '</div>';
-            $content = @file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR."render.php");
+            $content = file_get_contents(dirname(__FILE__).DIRECTORY_SEPARATOR."render.php");
             echo $content;
         }
 
@@ -70,15 +69,12 @@
                 return false;
             }
             $msg = $this->request->get("msg");
-            $cf = $this->request->get("cf");
             $filepath = dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename;
-            //echo "11111";
             if (!file_exists($filepath)) {
-                $this->writeweiyufile($filepath, "");
+                file_put_contents($filepath, "");
             }
-            //echo "2222";
-            $content = $this->getweiyufile($filepath);
-            if (! $this->canwrite($filepath)) {
+            $content = file_get_contents($filepath);
+            if (! is_writable($filepath)) {
                 echo "文件不可写:".$filepath;
                 return;
             }
@@ -88,9 +84,9 @@
                 $json = json_decode($content);
             }
             $key = date("Ymd-His"). rand(100,999);
-            $item = array("id"=>$key, "msg"=>$msg, "cf"=>$cf, "comments"=>array());
+            $item = array("id"=>$key, "msg"=>$msg, "comments"=>array());
             array_unshift($json, $item);
-            $ret = $this->writeweiyufile($filepath, json_encode($json));
+            $ret = @file_put_contents($filepath, json_encode($json));
             echo $ret;
         }
 
@@ -100,7 +96,7 @@
             }
             $id = $this->request->get("id");
             $filepath = dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename;
-            $content = $this->getweiyufile($filepath);
+            $content = @file_get_contents($filepath);
             //echo $content;
             if ($content == null || sizeof($content) == 0) {
                 return;
@@ -116,7 +112,7 @@
                     break;
                 }
             }
-            $ret = $this->writeweiyufile($filepath, json_encode($json));
+            $ret = file_put_contents($filepath, json_encode($json));
             echo $ret;
         }
 
@@ -130,7 +126,7 @@
             }
             $website = $this->request->website;
             $filepath = dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename;
-            $fcontent = $this->getweiyufile($filepath);
+            $fcontent = @file_get_contents($filepath);
             //echo $content;
             if ($fcontent == null || sizeof($fcontent) == 0) {
                 return;
@@ -145,14 +141,14 @@
                     break;
                 }
             }
-            $ret = $this->writeweiyufile($filepath, json_encode($json));
+            $ret = file_put_contents($filepath, json_encode($json));
             echo $ret;
         }
 
         public function getComments() {
             $msgId = $this->request->msgId;
             $filepath = dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename;
-            $content = $this->getweiyufile($filepath);
+            $content = @file_get_contents($filepath);
             //echo $content;
             if ($content == null || sizeof($content) == 0) {
                 echo "[]";
@@ -181,7 +177,7 @@
                 return false;
             }
             $filepath = dirname(__FILE__).DIRECTORY_SEPARATOR.$this->filename;
-            $content = $this->getweiyufile($filepath);
+            $content = @file_get_contents($filepath);
             if ($content == null || sizeof($content) == 0) {
                 return;
             }
@@ -198,34 +194,8 @@
                     break;
                 }
             }
-            $ret = $this->writeweiyufile($filepath, json_encode($json));
+            $ret = file_put_contents($filepath, json_encode($json));
             echo $ret;
         }
-
-		private function writeweiyufile($fliename, $content) {
-			//return @file_put_contents($fliename, $content);
-            //echo "wriet to kv";
-			$this->initKv();
-			return $this->kv->set("weiyu_conf", $content);
-		}
-
-		private function getweiyufile($filename) {
-			//return @file_get_contents($filename);
-            //echo "reda from kv";
-			$this->initKv();
-			return $this->kv->get("weiyu_conf");
-		}
-        
-        private function canwrite($filename) {
-            //return is_writable($filename);
-            return true;
-        }
-
-		private function initKv() {
-			if ($this->kv == null) {
-				$this->kv = new SaeKV();
-				$this->kv->init();
-			}
-		}
     }
 ?>

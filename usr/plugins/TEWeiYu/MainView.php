@@ -82,10 +82,6 @@ include 'menu.php';
     .WeiYu_KGSOFT table .sublist {
         border-bottom: 0px dashed #999;
     }
-    .WeiYu_KGSOFT #chkCF {
-        margin-top:15px;
-        margin-left:2px;
-    }
 </style>
 <div class="main">
     <div class="body container">
@@ -93,14 +89,7 @@ include 'menu.php';
         <div class="colgroup typecho-page-main" role="main">
             <div class="col-mb-12">
                 <div class="WeiYu_KGSOFT">
-                    <label for="weiyu">
-                                        设置微语后在页面模板中需要显示微语的地方插入下面一句代码即可：<br>
-                        &lt;?php Typecho_Widget::widget('TEWeiYu_Action')->render(); ?&gt;
-                    </label>
-                    <hr>
-                    
                     <input id="weiyu" type="text" placeholder="请输入新的微语"/>
-                    <input type="checkbox" id="chkCF">是否允许评论</input>
                     <button id="btnAdd" type="button">设置微语</button>
                     <span id="msg"></span>
                     <input type="hidden" id="msgdata" value='<?php echo Typecho_Widget::widget("TEWeiYu_Action")->getMsg(); ?>' />
@@ -211,12 +200,10 @@ include 'footer.php';
         getWeiyuList();
         $(".WeiYu_KGSOFT #btnAdd").click(function() {
             var val = $("#weiyu").val();
-            var cf = $("#chkCF")[0].checked ? true: null;
-
             var postUrl = "<?php $options->index('/action/weiyu-add'); ?>";
             $.ajax({
                 url:postUrl,
-                data:{"msg":val,"opt":"add","cf":cf},
+                data:{"msg":val,"opt":"add"},
                 method:"POST",
                 success:function(data) {
                     //alert(data);

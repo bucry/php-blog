@@ -8,9 +8,7 @@
         var baseUrl = gid("kgweiyu_baseUrl").value + "wyreply/";
         var tx = gid("kgweiyu_t");
         tx.onclick = function() {
-            if (tx.cf) {
-                window.open(baseUrl + tx.msgId);
-            }
+            window.open(baseUrl + tx.msgId);
         };
         if (msg) {
             msg = eval("(" + msg + ")");
@@ -28,7 +26,6 @@
             //alert(msg[index] + tx.top);
             tx.innerHTML = msg[index] && msg[index].msg;
             tx.msgId = msg[index] && msg[index].id;
-            tx.cf = msg[index].cf;
             var top = parseInt(tx.style.top);
             //console.log("top is " + top);
             if (top <= startT - h) {
